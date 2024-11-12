@@ -9,7 +9,7 @@ RSpec.describe "Subscriptions Endpoints" do
     @charlie_sub2 = Subscription.create!(title: "Weekly Chamomile Subscription", price: 4.99, status: false, frequency: "weekly", tea_id: @chamomile.id, customer_id: @charlie.id)
   end
 
-  describe 'Index - Happy Path' do
+  describe 'Index' do
     it 'returns all subscription' do
       get "/api/v1/subscriptions"
 
@@ -21,12 +21,6 @@ RSpec.describe "Subscriptions Endpoints" do
       expect(json.last[:attributes][:title]).to eq("Weekly Chamomile Subscription")
     end
   end
-
-  # describe "Index - Sad Path" do
-  #   it 'returns an error message' do
-
-  #   end
-  # end
 
   describe 'Show - Happy Path' do
     it 'returns one subscription by ID number' do
@@ -48,8 +42,9 @@ RSpec.describe "Subscriptions Endpoints" do
       json = JSON.parse(response.body, symbolize_names: true)
 
       expect(response).to_not be_successful
-      expect(response.status).to eq(404)
-      expect(json[:message]).to eq("subscription not found")
+      expect(response).to have_http_status((:not_found))
+      expect(json[:status]).to eq(404)
+      expect(json[:message]).to eq("Couldn't find Subscription with 'id'=123456789")
     end
   end
 
@@ -67,11 +62,13 @@ RSpec.describe "Subscriptions Endpoints" do
   describe 'Update - Sad Path' do
     it 'handles incorrect ID' do
       patch "/api/v1/subscriptions/99999999"
-
+      
       json = JSON.parse(response.body, symbolize_names: true)
 
       expect(response).to_not be_successful
-      expect(response.status).to eq(404)
+      expect(response).to have_http_status((:not_found))
+      expect(json[:status]).to eq(404)
+      expect(json[:message]).to eq("Couldn't find Subscription with 'id'=99999999")
     end
   end
 end
