@@ -92,22 +92,20 @@ RSpec.describe 'Subscription Endpoints' do
 
         expect(response).to be_successful
         subscriptions = JSON.parse(response.body, symbolize_names: true)[:data]
-binding.pry
+
         subscriptions.each do |subscription|
           attributes = subscription[:attributes]
-          relationships = subscription[:relationships]
+          customer = attributes[:customer]
+          tea = attributes[:tea]
 
           expect(subscription[:id]).to be_a(String)
           expect(subscription[:type]).to eq("subscription")
 
           expect(attributes[:active]).to be_in([true, false])
           expect(attributes[:frequency]).to be_a(Integer)
+          expect(attributes).to have_key(:customer)
+          expect(attributes).to have_key(:tea)
 
-          expect(relationships[:customer][:data]).to have_key(:id)
-          expect(relationships[:customer][:data][:type]).to eq("customer")
-
-          expect(relationships[:tea][:data]).to have_key(:id)
-          expect(relationships[:tea][:data][:type]).to eq("tea")
         end
 
       end
@@ -121,10 +119,32 @@ binding.pry
   describe 'Show single tea subscriptions' do
     describe 'HAPPY paths' do
       it 'returns all customer and tea information about a single subscription' do
-        get "/api/v1/subscriptions/#{@sub1}"
+        get "/api/v1/subscriptions/#{@sub1.id}"
 
         expect(response).to be_successful
-        subscriptions = JSON.parse(response.body, symbolize_names: true)[:data]
+        subscription = JSON.parse(response.body, symbolize_names: true)[:data]
+        customer = subscription[:attributes][:customer]
+        tea = subscription[:attributes][:tea]
+
+        expect(customer[:id]).to eq(@customer1[:id].to_s)
+        expect(customer[:type]).to eq("customer")
+        expect(customer[:attributes][:first_name]).to eq(@customer1[:first_name])
+        expect(customer[:attributes][:last_name]).to eq(@customer1[:last_name])
+        expect(customer[:attributes][:email]).to eq(@customer1[:email])
+        expect(customer[:attributes][:street_address]).to eq(@customer1[:street_address])
+        expect(customer[:attributes][:city]).to eq(@customer1[:city])
+        expect(customer[:attributes][:state]).to eq(@customer1[:state])
+        expect(customer[:attributes][:zip]).to eq(@customer1[:zip])
+
+        expect(tea[:id]).to eq(@tea1[:id].to_s)
+        expect(tea[:type]).to eq("tea")
+        expect(tea[:attributes][:title]).to eq(@tea1[:title])
+        expect(tea[:attributes][:description]).to eq(@tea1[:description])
+        expect(tea[:attributes][:temp]).to eq(@tea1[:temp])
+        expect(tea[:attributes][:brew_time]).to eq(@tea1[:brew_time])
+        expect(tea[:attributes][:price]).to eq(@tea1[:price])
+        expect(tea[:attributes][:image]).to eq(@tea1[:image])
+
       end
     end
 
