@@ -52,4 +52,26 @@ RSpec.describe "Subscriptions Endpoints" do
       expect(json[:message]).to eq("subscription not found")
     end
   end
+
+  describe 'Update - Happy Path' do
+    it 'toggles active status' do
+      patch "/api/v1/subscriptions/#{@charlie_sub2.id}"
+
+      json = JSON.parse(response.body, symbolize_names: true)
+
+      expect(response).to be_successful
+      expect(response.status).to eq(200)
+    end
+  end
+
+  describe 'Update - Sad Path' do
+    it 'handles incorrect ID' do
+      patch "/api/v1/subscriptions/99999999"
+
+      json = JSON.parse(response.body, symbolize_names: true)
+
+      expect(response).to_not be_successful
+      expect(response.status).to eq(404)
+    end
+  end
 end
