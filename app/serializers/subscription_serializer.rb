@@ -5,8 +5,7 @@ class SubscriptionSerializer
   # belongs_to :tea, serializer: TeaSerializer
 
   def self.format_one_sub(subscription, tea, customers)
-    # require 'pry'; binding.pry
-    customer_data = format_customers(subscription, [customers])
+    customer_data = format_customers(subscription, customers)
 
     {
       "id": subscription.id.to_s,
@@ -32,22 +31,15 @@ class SubscriptionSerializer
   private
 
   def self.format_customers(subscription, customers)
-    customer_data = customers.map do |customer|
+    customers.map do |customer|
+      customer_subscription = customer.subscriptions.find_by(tea_id: subscription.tea_id)
       {
-      "id": customer.id,
-      "first_name": customer.first_name,
-      "last_name": customer.last_name,
-      "email": customer.email,
-      "status": customer.subscriptions.find_by(tea_id: subscription.tea_id)&.status
-    }
-      # {
-      #   "id": customer.id,
-      #   "first_name": customer.first_name,
-      #   "last_name": customer.last_name,
-      #   "email": customer.email,
-      #   "status": customer.subscriptions.find_by(id: subscription.id)&.status, # Active or canceled
-      #   "subscribed_at": customer.subscriptions.find_by(id: subscription.id)&.created_at
-      # }
+        "id": customer.id,
+        "first_name": customer.first_name,
+        "last_name": customer.last_name,
+        "email": customer.email,
+        "status": customer_subscription&.status
+      }
     end
   end
 

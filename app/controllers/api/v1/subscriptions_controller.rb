@@ -1,5 +1,4 @@
 class Api::V1::SubscriptionsController < ApplicationController
-  # rescue_from ActiveRecord::RecordNotFound, with: :handle_not_found
 
   def index
     begin
@@ -13,9 +12,9 @@ class Api::V1::SubscriptionsController < ApplicationController
   def show
       subscription = Subscription.find_by(id: params[:id])
       tea = subscription.tea
-      customers = subscription.customer
+      # customers = subscription.customer
+      
       if subscription.nil?
-        # error = {message: "subscription not found", status_code: "404"}
         render json: ErrorSerializer.format_error(sub_not_found), status: :not_found
       else
         render json: SubscriptionSerializer.format_one_sub(subscription, tea, customers)
@@ -28,8 +27,7 @@ class Api::V1::SubscriptionsController < ApplicationController
     params.require(:subscription).permit(:id)
   end
 
-  def sub_not_found#(error)
-    # render json: { message: error.message, status: "404" }, status: :not_found
+  def sub_not_found
    {message: "subscription not found", status_code: "404"}
   end
 end
