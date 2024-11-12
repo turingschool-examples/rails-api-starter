@@ -1,7 +1,7 @@
 class Api::V1::SubscriptionsController < ApplicationController
   
   def index
-    all_subs = Subscriptions.all
+    all_subs = Subscription.all
     render json: all_subs
   end
 
