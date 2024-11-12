@@ -8,7 +8,6 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
-
 tea_earl_grey = Tea.create(title: "Earl Grey", description: "A classic British black tea with bergamot.", temperature: 95, brew_time: 4)
 tea_green = Tea.create(title: "Green Tea", description: "Light and refreshing green tea leaves.", temperature: 80, brew_time: 3)
 tea_chamomile = Tea.create(title: "Chamomile", description: "A calming herbal tea made from chamomile flowers.", temperature: 100, brew_time: 5)
