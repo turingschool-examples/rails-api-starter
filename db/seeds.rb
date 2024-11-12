@@ -60,6 +60,15 @@ Subscription.create!(
 )
 
 Subscription.create!(
+  title: "Monthly Green Tea Subscription",
+  price: 10.99,
+  status: false,
+  frequency: "monthly",
+  tea_id: green_tea.id,
+  customer_id: customer2.id
+)
+
+Subscription.create!(
   title: "Weekly Chamomile Subscription",
   price: 4.99,
   status: true,
