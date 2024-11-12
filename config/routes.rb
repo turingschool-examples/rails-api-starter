@@ -9,4 +9,5 @@ Rails.application.routes.draw do
   # root "posts#index"
   get '/api/v1/subscriptions', to: 'api/v1/subscriptions#index'
   get '/api/v1/subscriptions/:id', to: 'api/v1/subscriptions#show'
+  patch '/api/v1/subscriptions/:id', to: 'api/v1/subscriptions#update'
 end

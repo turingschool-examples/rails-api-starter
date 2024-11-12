@@ -2,22 +2,32 @@ class Api::V1::SubscriptionsController < ApplicationController
 
   def index
     # begin
-      all_subs = Subscription.all
-      render json: SubscriptionSerializer.new(all_subs)
+    all_subs = Subscription.all
+    render json: SubscriptionSerializer.new(all_subs)
     # rescue => error
     #   render json: ErrorSerializer.format_error(error.message)
     # end
   end
 
   def show
-      subscription = Subscription.find_by(id: params[:id])
-      if subscription.nil?
-        render json: ErrorSerializer.format_error(sub_not_found), status: :not_found
-      else
-        tea = subscription.tea
-        customer = subscription.customer
-        render json: SubscriptionSerializer.format_one_sub(subscription, tea, customer)
-      end
+    subscription = Subscription.find_by(id: params[:id])
+    if subscription.nil?
+      render json: ErrorSerializer.format_error(sub_not_found), status: :not_found
+    else
+      tea = subscription.tea
+      customer = subscription.customer
+      render json: SubscriptionSerializer.format_one_sub(subscription, tea, customer)
+    end
+  end
+
+  def update
+    subscription = Subscription.find_by(id: params[:id])
+    if subscription
+      subscription.toggle_status
+      render json: SubscriptionSerializer.new(subscription), status: :ok
+    else
+      render json: ErrorSerializer.format_error(sub_not_found), status: :not_found
+    end
   end
 
   private
