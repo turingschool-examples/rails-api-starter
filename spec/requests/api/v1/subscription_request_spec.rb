@@ -92,7 +92,7 @@ RSpec.describe 'Subscription Endpoints' do
 
         expect(response).to be_successful
         subscriptions = JSON.parse(response.body, symbolize_names: true)[:data]
-
+binding.pry
         subscriptions.each do |subscription|
           attributes = subscription[:attributes]
           relationships = subscription[:relationships]
@@ -121,7 +121,10 @@ RSpec.describe 'Subscription Endpoints' do
   describe 'Show single tea subscriptions' do
     describe 'HAPPY paths' do
       it 'returns all customer and tea information about a single subscription' do
+        get "/api/v1/subscriptions/#{@sub1}"
 
+        expect(response).to be_successful
+        subscriptions = JSON.parse(response.body, symbolize_names: true)[:data]
       end
     end
 
