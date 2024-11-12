@@ -92,17 +92,22 @@ RSpec.describe 'Subscription Endpoints' do
 
         expect(response).to be_successful
         subscriptions = JSON.parse(response.body, symbolize_names: true)[:data]
-binding.pry
+
         subscriptions.each do |subscription|
           attributes = subscription[:attributes]
+          relationships = subscription[:relationships]
 
           expect(subscription[:id]).to be_a(String)
           expect(subscription[:type]).to eq("subscription")
 
-          expect(attributes).to have_key(:customer)
-          expect(attributes).to have_key(:tea)
-          expect(attributes[:active]).to be_a(Boolean)
+          expect(attributes[:active]).to be_in([true, false])
           expect(attributes[:frequency]).to be_a(Integer)
+
+          expect(relationships[:customer][:data]).to have_key(:id)
+          expect(relationships[:customer][:data][:type]).to eq("customer")
+
+          expect(relationships[:tea][:data]).to have_key(:id)
+          expect(relationships[:tea][:data][:type]).to eq("tea")
         end
 
       end
