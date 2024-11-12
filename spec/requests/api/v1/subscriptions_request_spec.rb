@@ -9,7 +9,7 @@ RSpec.describe "Subscriptions Endpoints" do
     @charlie_sub2 = Subscription.create!(title: "Weekly Chamomile Subscription", price: 4.99, status: false, frequency: "weekly", tea_id: @chamomile.id, customer_id: @charlie.id)
   end
 
-  describe 'Index - Happy Path' do
+  describe 'Index' do
     it 'returns all subscription' do
       get "/api/v1/subscriptions"
 
@@ -21,12 +21,6 @@ RSpec.describe "Subscriptions Endpoints" do
       expect(json.last[:attributes][:title]).to eq("Weekly Chamomile Subscription")
     end
   end
-
-  # describe "Index - Sad Path" do
-  #   it 'returns an error message' do
-
-  #   end
-  # end
 
   describe 'Show - Happy Path' do
     it 'returns one subscription by ID number' do
@@ -46,7 +40,7 @@ RSpec.describe "Subscriptions Endpoints" do
       get "/api/v1/subscriptions/123456789"
 
       json = JSON.parse(response.body, symbolize_names: true)
-      # require 'pry'; binding.pry
+
       expect(response).to_not be_successful
       expect(response).to have_http_status((:not_found))
       expect(json[:status]).to eq(404)
@@ -70,9 +64,7 @@ RSpec.describe "Subscriptions Endpoints" do
       patch "/api/v1/subscriptions/99999999"
       
       json = JSON.parse(response.body, symbolize_names: true)
-      # require 'pry'; binding.pry
-      # expect(response).to_not be_successful
-      # expect(response.status).to eq(404)
+
       expect(response).to_not be_successful
       expect(response).to have_http_status((:not_found))
       expect(json[:status]).to eq(404)
