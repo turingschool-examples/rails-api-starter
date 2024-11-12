@@ -12,11 +12,13 @@ class Api::V1::SubscriptionsController < ApplicationController
 
   def show
       subscription = Subscription.find_by(id: params[:id])
+      tea = subscription.tea
+      customers = subscription.customer
       if subscription.nil?
         # error = {message: "subscription not found", status_code: "404"}
         render json: ErrorSerializer.format_error(sub_not_found), status: :not_found
       else
-        render json: SubscriptionSerializer.new(subscription)
+        render json: SubscriptionSerializer.format_one_sub(subscription, tea, customers)
       end
   end
 
