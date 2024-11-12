@@ -1,5 +1,6 @@
 class Api::V1::SubscriptionsController < ApplicationController
-  
+  # rescue_from ActiveRecord::RecordNotFound, with: :handle_not_found
+
   def index
     begin
       all_subs = Subscription.all
@@ -25,7 +26,8 @@ class Api::V1::SubscriptionsController < ApplicationController
     params.require(:subscription).permit(:id)
   end
 
-  def sub_not_found
+  def sub_not_found#(error)
+    # render json: { message: error.message, status: "404" }, status: :not_found
    {message: "subscription not found", status_code: "404"}
   end
 end

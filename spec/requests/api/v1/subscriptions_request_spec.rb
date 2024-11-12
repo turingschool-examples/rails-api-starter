@@ -49,7 +49,7 @@ RSpec.describe "Subscriptions Endpoints" do
       get "/api/v1/subscriptions/123456789"
 
       json = JSON.parse(response.body, symbolize_names: true)
-
+      # require 'pry'; binding.pry
       expect(response).to_not be_successful
       expect(response.status).to eq(404)
       expect(json[:message]).to eq("subscription not found")
