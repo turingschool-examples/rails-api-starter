@@ -6,6 +6,8 @@ class Api::V1::SubscriptionsController < ApplicationController
 
   def show
     subscription = find_subscription
+    return if subscription.nil?
+
     render_subscription(subscription)
   end
 
@@ -52,6 +54,7 @@ class Api::V1::SubscriptionsController < ApplicationController
     Subscription.find(params[:id])
   rescue ActiveRecord::RecordNotFound
     render json: { message: 'Subscription not found' }, status: :not_found
+    nil
   end
 end
 
