@@ -95,8 +95,6 @@ RSpec.describe 'Subscription Endpoints' do
 
         subscriptions.each do |subscription|
           attributes = subscription[:attributes]
-          customer = attributes[:customer]
-          tea = attributes[:tea]
 
           expect(subscription[:id]).to be_a(String)
           expect(subscription[:type]).to eq("subscription")
@@ -105,7 +103,6 @@ RSpec.describe 'Subscription Endpoints' do
           expect(attributes[:frequency]).to be_a(Integer)
           expect(attributes).to have_key(:customer)
           expect(attributes).to have_key(:tea)
-
         end
 
       end
@@ -156,7 +153,22 @@ RSpec.describe 'Subscription Endpoints' do
   describe 'Update single tea subscriptions' do
     describe 'HAPPY paths' do
       it 'allows a user to toggle a subscriptions active state between true and false' do
+        expect(@sub1[:active]).to eq(true)
 
+        headers = { "CONTENT_TYPE" => "application/json"}
+        patch "/api/v1/subscriptions/#{@sub1.id}?toggle_active", headers: headers
+
+        expect(response).to be_successful
+        subscription = JSON.parse(response.body, symbolize_names: true)[:data]
+
+        expect(subscription[:attributes][:active]).to eq(false)
+
+        patch "/api/v1/subscriptions/#{@sub1.id}?toggle_active", headers: headers
+
+        expect(response).to be_successful
+        subscription = JSON.parse(response.body, symbolize_names: true)[:data]
+
+        expect(subscription[:attributes][:active]).to eq(true)
       end
     end
 
