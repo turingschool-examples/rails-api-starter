@@ -2,8 +2,6 @@ class SubscriptionSerializer
   include JSONAPI::Serializer
   attributes :title, :price, :status, :frequency
 
-  # belongs_to :tea, serializer: TeaSerializer
-
   def self.format_one_sub(subscription, tea, customer)
     customer_data = format_customers(subscription, customer)
 
@@ -31,15 +29,13 @@ class SubscriptionSerializer
   private
 
   def self.format_customers(subscription, customer)
-      customer_subscription = customer.subscriptions.find_by(tea_id: subscription.tea_id)
-      # require 'pry'; binding.pry
-      {
-        "id": customer.id,
-        "first_name": customer.first_name,
-        "last_name": customer.last_name,
-        "email": customer.email,
-        "status": customer_subscription.status
-      }
+    customer_subscription = customer.subscriptions.find_by(tea_id: subscription.tea_id)
+    {
+      "id": customer.id,
+      "first_name": customer.first_name,
+      "last_name": customer.last_name,
+      "email": customer.email,
+      "status": customer_subscription.status
+    }
   end
-
 end
