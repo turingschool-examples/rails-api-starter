@@ -54,7 +54,7 @@ Subscription.create!(
   title: "Monthly Green Tea Subscription",
   price: 10.99,
   status: true,
-  frequency: "monthly",
+  frequency: "Monthly",
   tea_id: green_tea.id,
   customer_id: customer1.id
 )
@@ -63,7 +63,7 @@ Subscription.create!(
   title: "Monthly Green Tea Subscription",
   price: 10.99,
   status: false,
-  frequency: "monthly",
+  frequency: "Monthly",
   tea_id: green_tea.id,
   customer_id: customer2.id
 )
@@ -72,7 +72,7 @@ Subscription.create!(
   title: "Weekly Chamomile Subscription",
   price: 4.99,
   status: true,
-  frequency: "weekly",
+  frequency: "Weekly",
   tea_id: chamomile.id,
   customer_id: customer2.id
 )
@@ -81,7 +81,7 @@ Subscription.create!(
   title: "Biweekly Earl Grey Subscription",
   price: 7.99,
   status: false,
-  frequency: "biweekly",
+  frequency: "Biweekly",
   tea_id: earl_grey.id,
   customer_id: customer3.id
 )
