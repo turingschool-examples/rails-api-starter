@@ -156,14 +156,14 @@ RSpec.describe 'Subscription Endpoints' do
         expect(@sub1[:active]).to eq(true)
 
         headers = { "CONTENT_TYPE" => "application/json"}
-        patch "/api/v1/subscriptions/#{@sub1.id}?toggle_active", headers: headers
+        patch "/api/v1/subscriptions/#{@sub1.id}", params: { toggle_active: true }.to_json, headers: headers
 
         expect(response).to be_successful
         subscription = JSON.parse(response.body, symbolize_names: true)[:data]
 
         expect(subscription[:attributes][:active]).to eq(false)
 
-        patch "/api/v1/subscriptions/#{@sub1.id}?toggle_active", headers: headers
+        patch "/api/v1/subscriptions/#{@sub1.id}", params: { toggle_active: true }.to_json, headers: headers
 
         expect(response).to be_successful
         subscription = JSON.parse(response.body, symbolize_names: true)[:data]
