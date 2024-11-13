@@ -146,7 +146,9 @@ RSpec.describe 'Subscription Endpoints' do
     end
 
     describe 'SAD paths' do
-
+      it 'returns an error if the subscription does not exist in the database' do
+        
+      end
     end
   end
 
