@@ -11,7 +11,8 @@ require 'faker'
 
 User.destroy_all
 Show.destroy_all
-
+Schedule.destroy_all
+ScheduleShow.destroy_all
 
 3.times do
   User.create!(
@@ -32,3 +33,14 @@ locations = ["Stage 1", "Stage 2", "Stage 3", "Stage 4", "Stage 5"]
     time: Faker::Time.between_dates(from: "2025-07-01", to: "2025-07-03", period: :all)
   )
 end
+
+User.all.each do |user|
+  schedule = user.schedules.create!(
+    title: "#{user.first_name}'s Festival Schedule",
+    date: Faker::Date.between(from: "2025-07-01", to: "2025-07-03")
+  )
+  Show.all.sample(rand(2..4)).each do |show|
+    schedule.shows << show
+  end
+end
+
