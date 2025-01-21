@@ -6,7 +6,7 @@ describe "Schedules endpoints", type: :request do
       user = User.create!(
         first_name: "John",
         last_name: "Doe",
-        email: "john.doe@example.com"
+        email: "john@yahoo.com"
       )
       schedule = user.schedules.create!(
         title: "John's Festival Schedule",
