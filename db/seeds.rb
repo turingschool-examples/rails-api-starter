@@ -40,7 +40,7 @@ User.all.each do |user|
     date: Faker::Date.between(from: "2025-07-01", to: "2025-07-03")
   )
   Show.all.sample(rand(2..4)).each do |show|
-    schedule.shows << show
+    ScheduleShow.create!(schedule: schedule, show: show)
   end
 end
 
