@@ -5,4 +5,12 @@ class Schedule < ApplicationRecord
 
   validates :title, presence: true
   validates :date, presence: true
+
+  def remove_show(show_id)
+    show = shows.find_by(id: show_id)
+    return false if show.nil?
+
+    shows.destroy(show)
+    true
+  end
 end
