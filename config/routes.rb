@@ -7,4 +7,16 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+
+  namespace :api do
+    namespace:v1 do
+      resources :schedules, only: [:index] do
+        resources :shows, only: [:show], controller: "schedule_shows", as: :schedule_shows
+        delete "/shows/:id", to: "schedule_shows#destroy", as: :delete_show
+      end
+      resources :users do
+        get "/schedules", to: "user_schedules#index"
+      end
+    end
+  end
 end
